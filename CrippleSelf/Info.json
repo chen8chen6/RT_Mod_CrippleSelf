@@ -1,0 +1,12 @@
+{
+  "Id": "CrippleSelf",
+  "DisplayName": "Cripple Self",
+  "Author": "chen8chen6",
+  "Version": "0.0.1",
+  "ManagerVersion": "0.25.0",
+  "Requirements": [],
+  "AssemblyName": "CrippleSelf.dll",
+  "EntryMethod": "CrippleSelf.Main.Load",
+  "HomePage": "",
+  "Repository": ""
+}
