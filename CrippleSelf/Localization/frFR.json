@@ -1,0 +1,12 @@
+{
+  "strings": {
+    "mod.crippleSelf.name": {
+      "Offset": 0,
+      "Text": "Cripple Self"
+    },
+    "mod.crippleSelf.desc": {
+      "Offset": 0,
+      "Text": "Apply all {g|Encyclopedia:Traumas}traumas{/g} on self."
+    }
+  }
+}

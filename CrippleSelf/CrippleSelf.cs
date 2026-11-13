@@ -1,23 +1,14 @@
 ﻿using HarmonyLib;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.JsonSystem;
-using Kingmaker.Designers.EventConditionActionSystem.Actions;
-using Kingmaker.Designers.EventConditionActionSystem.Conditions;
 using Kingmaker.ElementsSystem;
+using Kingmaker.Localization;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
 using Kingmaker.UnitLogic.Abilities.Components;
-using Kingmaker.UnitLogic.Buffs;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
 using Kingmaker.UnitLogic.FactLogic;
 using Kingmaker.UnitLogic.Mechanics.Actions;
 using Kingmaker.UnitLogic.Progression.Features;
-using Kingmaker.Utility;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Kingmaker.Blueprints.Area.FactHolder;
 
 namespace CrippleSelf
 {
@@ -41,7 +32,6 @@ namespace CrippleSelf
                 //Add CrippleSelf ability when "Facing the end" or "Wounded beast" feature added
                 AddAbilityForFeature(ref CrippleSelf, AssetID.Feature.FACING_THE_END);
                 AddAbilityForFeature(ref CrippleSelf, AssetID.Feature.WOUNDED_BEAST);
-
             }
         }
 
@@ -50,22 +40,29 @@ namespace CrippleSelf
             AbilityEffectRunAction abilityEffect = new() { Actions = ApplyAllTrauma() };
             BlueprintBuff brokenRibs = ResourcesLibrary.TryGetBlueprint<BlueprintBuff>(AssetID.Trauma.BROKEN_RIBS);
 
-            //TODO: cost 0 AP
             return new BlueprintAbility
             {
                 AssetGuid = AssetID.Ability.MOD_CRIPPLE_SELF,
                 Comment = "Apply all traumas on self",
                 name = "MOD_CrippleSelf_ability",
 
+                //Diaplay name and description
+                m_DisplayName = new LocalizedString() { m_Key = AssetID.LocalizedStringKey.CRIPPLE_SELF_NAME },
+                m_Description = new LocalizedString() { m_Key = AssetID.LocalizedStringKey.CRIPPLE_SELF_DESC },
+
+                //Cast on self
                 Range = AbilityRange.Personal,
                 CanTargetSelf = true,
                 ShouldTurnToTarget = true,
 
+                //Can be casted outsite combat
                 CombatStateRestriction = BlueprintAbility.CombatStateRestrictionType.NoRestriction,
+
+                //Will not cause attack
                 UsingInOverwatchArea = BlueprintAbility.UsingInOverwatchAreaType.WillNotCauseAttack,
                 UsingInThreateningArea = BlueprintAbility.UsingInThreateningAreaType.CanUseWithoutAOO,
 
-                //ComponentsArray = new BlueprintComponent[2] { abilityEffect, gun_and_run.ComponentsArray[2] },
+                ActionPointCost = 0,
                 ComponentsArray = [abilityEffect],
                 m_Icon = brokenRibs?.Icon,
             };
@@ -74,7 +71,7 @@ namespace CrippleSelf
         private static ActionList ApplyAllTrauma()
         {
             //Rank up traumabuff to maxRank.
-            //This buff works as a counter. Each time the counter ranks up, a certain trauma is applyed on target
+            //This buff works as a counter. Each time the counter ranks up, a random trauma is applyed on target
             return new ActionList { Actions = [RankUpTraumaBuff()] }; ;
         }
 

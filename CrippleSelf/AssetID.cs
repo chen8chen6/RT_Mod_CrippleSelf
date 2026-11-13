@@ -24,5 +24,11 @@ namespace CrippleSelf
         {
             public const string MOD_CRIPPLE_SELF = "2A4C974E3D6642FCA59BD21CD498FA22";
         }
+
+        public static class LocalizedStringKey
+        {
+            public const string CRIPPLE_SELF_NAME = "mod.crippleSelf.name";
+            public const string CRIPPLE_SELF_DESC = "mod.crippleSelf.desc";
+        }
     }
 }

@@ -1,0 +1,12 @@
+{
+  "strings": {
+    "mod.crippleSelf.name": {
+      "Offset": 0,
+      "Text": "伤己"
+    },
+    "mod.crippleSelf.desc": {
+      "Offset": 0,
+      "Text": "赋予自身所有{g|Encyclopedia:Traumas}创伤{/g}"
+    }
+  }
+}
