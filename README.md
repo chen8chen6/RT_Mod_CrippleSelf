@@ -1,12 +1,12 @@
 # RT_Mod_CrippleSelf
 
-	Provide an ability to apply all traumas on self. Used to quicken warm-up for character builds based on traumas.
+Provide an ability to apply all traumas on self. Used to quicken warm-up for character builds based on traumas.
 
 # How to aquire this ability:
 
-	Rougue Trader and companions will aquire this ability automatically when savedata loaded.
+Rougue Trader and companions will aquire this ability automatically when savedata loaded.
 	
-	If it doesn't appear in your ability slot, press "C" and check the "feature" tab. It should be right under the "other" type, close to Heroic Act and Desperate Act.
+If it doesn't appear in your ability slot, press "C" and check the "feature" tab. It should be right under the "other" type, close to Heroic Act and Desperate Act.
 
 # Installation:
 
@@ -40,15 +40,15 @@ MindAttic, Author of the "Overwatch" mod[https://www.nexusmods.com/warhammer40kr
 
 # RT_Mod_CrippleSelf
 
-	新增一个能赋予自身所有创伤的技能. 可以用来给创伤流快速启动.
+新增一个能赋予自身所有创伤的技能. 可以用来给创伤流快速启动.
 
-	注意: 该Mod仅作为Puzzle Skip[https://github.com/Balkoth-dev/PuzzleSkip/releases]的补充, 无法跳过阿什雷卡高的谜题. 需要与ArkiveDev和Balkoth的Puzzle Skip配合使用
+注意: 该Mod仅作为Puzzle Skip[https://github.com/Balkoth-dev/PuzzleSkip/releases]的补充, 无法跳过阿什雷卡高的谜题. 需要与ArkiveDev和Balkoth的Puzzle Skip配合使用
 
 # 获取技能:
 
-	读取存档时, 行商浪人和同伴会自动获取该技能.
+读取存档时, 行商浪人和同伴会自动获取该技能.
 	
-	如果技能栏里没出现的话, 按"C"打开角色页面, 切换到"特性"页面, 在"其它"项里就能找到了. 就在"英雄壮举"和"背水一战"旁边.
+如果技能栏里没出现的话, 按"C"打开角色页面, 切换到"特性"页面, 在"其它"项里就能找到了. 就在"英雄壮举"和"背水一战"旁边.
 
 # 安装:
 
@@ -74,26 +74,10 @@ MindAttic, Author of the "Overwatch" mod[https://www.nexusmods.com/warhammer40kr
 
 2. 找到"CrippleSelf" Mod并点击"Install"安装.
 
-方法1:
-
-1. 在游戏mod目录(例: D:\SteamLibrary\steamapps\common\Pathfinder Second Adventure\Mods\)下创建新文件夹, 命名为SkipBaphometPuzzles
-
-2. 将压缩包内文件解压到该目录下.
-
-
--- 或者 --
-
-
-方法2:
-
-1. 下载并安装UnityModManager.
-
-2. 启动UnityModManager, Game栏选择Pathfinder: Wrath of the Righteous, Folder栏选择游戏安装目录(例: D:\SteamLibrary\steamapps\common\Pathfinder Second Adventure\), 然后点击"Install"按钮.
-
 3. 点击上方"Mods"标签, 选择"Install Mods", 在弹出的对话框中选择"SkipBaphometPuzzles.zip"
 
 # 特别感谢
 
 ToyBox的所有贡献者们[https://www.nexusmods.com/warhammer40kroguetrader/mods/1]
 
-MindAttic,"Overwatch" mod[https://www.nexusmods.com/warhammer40kroguetrader/mods/677]的作者. 本地化和添加技能的方法都是从这mod学的.
+MindAttic,"Overwatch" mod[https://www.nexusmods.com/warhammer40kroguetrader/mods/677] 的作者. 本地化和添加技能的方法都是从这mod学的.
