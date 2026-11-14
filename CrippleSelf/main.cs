@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using Kingmaker.PubSubSystem.Core;
 using System.Reflection;
 using UnityModManagerNet;
 
@@ -16,6 +17,7 @@ namespace CrippleSelf
             Localization.SetLoadedMarkKey(AssetID.LocalizedStringKey.CRIPPLE_SELF_NAME);  //Used to check if mod language pack is loaded
             var harmony = new Harmony(modEntry.Info.Id);
             harmony.PatchAll(Assembly.GetExecutingAssembly());
+            EventBus.Subscribe(new PartyGrant());   //Add CrippleSelf ability on savedata loaded
             return true;
         }
 

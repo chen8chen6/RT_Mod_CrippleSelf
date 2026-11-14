@@ -6,9 +6,7 @@ using Kingmaker.Localization;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
 using Kingmaker.UnitLogic.Abilities.Components;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
-using Kingmaker.UnitLogic.FactLogic;
 using Kingmaker.UnitLogic.Mechanics.Actions;
-using Kingmaker.UnitLogic.Progression.Features;
 
 namespace CrippleSelf
 {
@@ -28,10 +26,6 @@ namespace CrippleSelf
                 //Register Ability CrippleSelf
                 BlueprintAbility CrippleSelf = AbilityCrippleSelf();
                 __instance.AddCachedBlueprint(CrippleSelf.AssetGuid, CrippleSelf);
-
-                //Add CrippleSelf ability when "Facing the end" or "Wounded beast" feature added
-                AddAbilityForFeature(ref CrippleSelf, AssetID.Feature.FACING_THE_END);
-                AddAbilityForFeature(ref CrippleSelf, AssetID.Feature.WOUNDED_BEAST);
             }
         }
 
@@ -46,14 +40,16 @@ namespace CrippleSelf
                 Comment = "Apply all traumas on self",
                 name = "MOD_CrippleSelf_ability",
 
-                //Diaplay name and description
+                //Display options
                 m_DisplayName = new LocalizedString() { m_Key = AssetID.LocalizedStringKey.CRIPPLE_SELF_NAME },
                 m_Description = new LocalizedString() { m_Key = AssetID.LocalizedStringKey.CRIPPLE_SELF_DESC },
+                m_Icon = brokenRibs?.Icon,
 
                 //Cast on self
                 Range = AbilityRange.Personal,
                 CanTargetSelf = true,
                 ShouldTurnToTarget = true,
+                Animation = Kingmaker.Visual.Animation.Kingmaker.Actions.UnitAnimationActionCastSpell.CastAnimationStyle.Self,
 
                 //Can be casted outsite combat
                 CombatStateRestriction = BlueprintAbility.CombatStateRestrictionType.NoRestriction,
@@ -62,9 +58,9 @@ namespace CrippleSelf
                 UsingInOverwatchArea = BlueprintAbility.UsingInOverwatchAreaType.WillNotCauseAttack,
                 UsingInThreateningArea = BlueprintAbility.UsingInThreateningAreaType.CanUseWithoutAOO,
 
+                //Ability effects
                 ActionPointCost = 0,
                 ComponentsArray = [abilityEffect],
-                m_Icon = brokenRibs?.Icon,
             };
         }
 
@@ -88,17 +84,6 @@ namespace CrippleSelf
                 Permanent = true,
                 Ranks = TraumaCntBuff.MaxRank,
             };
-        }
-
-        private static void AddAbilityForFeature(ref BlueprintAbility ability, string featureGuid)
-        {
-            var feature = ResourcesLibrary.TryGetBlueprint<BlueprintFeature>(featureGuid);
-            if (null == feature)
-                return;
-
-            //TODO: check if addFacts exists in componentArray
-            AddFacts fact = new() { m_Facts = [ability.ToReference<BlueprintUnitFactReference>()] };
-            feature.ComponentsArray = feature.ComponentsArray.AddToArray(fact);
         }
     }
 }
