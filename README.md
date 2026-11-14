@@ -42,8 +42,6 @@ MindAttic, Author of the "Overwatch" mod[https://www.nexusmods.com/warhammer40kr
 
 新增一个能赋予自身所有创伤的技能. 可以用来给创伤流快速启动.
 
-注意: 该Mod仅作为Puzzle Skip[https://github.com/Balkoth-dev/PuzzleSkip/releases]的补充, 无法跳过阿什雷卡高的谜题. 需要与ArkiveDev和Balkoth的Puzzle Skip配合使用
-
 # 获取技能:
 
 读取存档时, 行商浪人和同伴会自动获取该技能.
