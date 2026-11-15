@@ -2,10 +2,11 @@
   "Id": "CrippleSelf",
   "DisplayName": "Cripple Self",
   "Author": "chen8chen6",
-  "Version": "1.0.0",
+  "Version": "1.1.0",
   "ManagerVersion": "0.25.0",
   "Requirements": [],
   "AssemblyName": "CrippleSelf.dll",
   "EntryMethod": "CrippleSelf.Main.Load",
-  "HomePage": "https://github.com/chen8chen6/RT_Mod_CrippleSelf"
+  "HomePage": "https://github.com/chen8chen6/RT_Mod_CrippleSelf",
+  "Repository": "https://raw.githubusercontent.com/chen8chen6/RT_Mod_CrippleSelf/main/Repository.json"
 }
