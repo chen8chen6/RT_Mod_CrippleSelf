@@ -10,8 +10,13 @@ namespace CrippleSelf
     {
         public static class Trauma
         {
-            public const string BROKEN_RIBS     = "d51b30ccb3d447b28c77b7057a5ccfa0";   //BrokenRibs_Trauma
-            public const string TRAUMA_BUFF     = "8c776f738cb2482ba003f93b3af9f506";   //TraumaBuff
+            public const string BROKEN_RIBS         = "d51b30ccb3d447b28c77b7057a5ccfa0";   //BrokenRibs_Trauma
+            public const string CONCUSSION          = "30820d5aef9b4251af7579722dc95307";   //Concussion_Trauma
+            public const string CRIPPLED_ARM_LEFT   = "e026d82067804bca899de79f0650c6b6";   //CrippledArm_Left_Trauma
+            public const string CRIPPLED_ARM_RIGHT  = "b6a0edb0040f450a8a0c85c1300d6548";   //CrippledArm_Right_Trauma
+            public const string CRIPPLED_LEG        = "6338756ef76148369f50bc5d6d48ac4a";   //CrippledLeg_Trauma
+            public const string NEUROGENIC_SHOCK    = "30b20c0ee9b94aa09af18293c6e1222e";   //NerveDamage_Trauma
+            public const string TRAUMA_RANK         = "8c776f738cb2482ba003f93b3af9f506";   //TraumaBuff
         };
 
         public static class Feature

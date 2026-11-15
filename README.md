@@ -1,6 +1,8 @@
 # RT_Mod_CrippleSelf
 
-Provide an ability to apply all traumas on self. Used to quicken warm-up for character builds based on traumas.
+Provide an ability to apply several traumas (selected on setting page) on self. Used to quicken warm-up for character builds based on traumas.
+
+For example: By apply traumas excluding "Cripple Arm", character's Weapon Skill increases by 40 (from "Facing the end"), instand of 10 (-30 from "Cripple Arm Left/Right").
 
 # How to aquire this ability:
 
@@ -40,7 +42,9 @@ MindAttic, Author of the "Overwatch" mod[https://www.nexusmods.com/warhammer40kr
 
 # RT_Mod_CrippleSelf
 
-新增一个能赋予自身所有创伤的技能. 可以用来给创伤流快速启动.
+新增一个能赋予自身指定创伤(在配置页选择)的技能. 可以用来给创伤流快速启动.
+
+举例来说: 赋予自身除 "手臂骨折" 以外的所有创伤, 角色的武器技能会提升40点("面对终结"), 而不是10点("手臂骨折 左/右" 扣了30点)
 
 # 获取技能:
 
@@ -71,8 +75,6 @@ MindAttic, Author of the "Overwatch" mod[https://www.nexusmods.com/warhammer40kr
 1. 下载ModFinder[https://www.nexusmods.com/warhammer40kroguetrader/mods/146].
 
 2. 找到"CrippleSelf" Mod并点击"Install"安装.
-
-3. 点击上方"Mods"标签, 选择"Install Mods", 在弹出的对话框中选择"SkipBaphometPuzzles.zip"
 
 # 特别感谢
 

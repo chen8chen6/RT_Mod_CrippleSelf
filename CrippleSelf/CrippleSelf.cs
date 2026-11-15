@@ -1,6 +1,8 @@
 ﻿using HarmonyLib;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.JsonSystem;
+using Kingmaker.Designers.EventConditionActionSystem.Actions;
+using Kingmaker.Designers.EventConditionActionSystem.Conditions;
 using Kingmaker.ElementsSystem;
 using Kingmaker.Localization;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
@@ -31,7 +33,7 @@ namespace CrippleSelf
 
         private static BlueprintAbility AbilityCrippleSelf()
         {
-            AbilityEffectRunAction abilityEffect = new() { Actions = ApplyAllTrauma() };
+            AbilityEffectRunAction abilityEffect = new() { Actions = ActionCrippleSelf() };
             BlueprintBuff brokenRibs = ResourcesLibrary.TryGetBlueprint<BlueprintBuff>(AssetID.Trauma.BROKEN_RIBS);
 
             return new BlueprintAbility
@@ -60,29 +62,56 @@ namespace CrippleSelf
 
                 //Ability effects
                 ActionPointCost = 0,
-                ComponentsArray = [abilityEffect],
+                ComponentsArray = [abilityEffect],  //TODO: UI Component
             };
         }
 
-        private static ActionList ApplyAllTrauma()
+        private static ActionList ActionCrippleSelf()
         {
-            //Rank up traumabuff to maxRank.
-            //This buff works as a counter. Each time the counter ranks up, a random trauma is applyed on target
-            return new ActionList { Actions = [RankUpTraumaBuff()] }; ;
+            return new ActionList()
+            {
+                Actions = [
+                    RemoveBuff(AssetID.Trauma.TRAUMA_RANK),
+                    RankUpTraumaBuff(),     //After this action, caster has unknown num of traumas
+                    RemoveBuff(AssetID.Trauma.BROKEN_RIBS),
+                    RemoveBuff(AssetID.Trauma.CONCUSSION),
+                    RemoveBuff(AssetID.Trauma.CRIPPLED_ARM_LEFT),
+                    RemoveBuff(AssetID.Trauma.CRIPPLED_ARM_RIGHT),
+                    RemoveBuff(AssetID.Trauma.CRIPPLED_LEG),
+                    RemoveBuff(AssetID.Trauma.NEUROGENIC_SHOCK),
+                    ApplySelectedTraumas(),
+                ]
+            };
         }
 
-        private static ContextActionApplyBuff RankUpTraumaBuff()
+        private static Mod_CrippleSelf_RankUpTrauma RankUpTraumaBuff()
         {
-            BlueprintBuff TraumaCntBuff = ResourcesLibrary.TryGetBlueprint<BlueprintBuff>(AssetID.Trauma.TRAUMA_BUFF);
+            BlueprintBuff TraumaCntBuff = ResourcesLibrary.TryGetBlueprint<BlueprintBuff>(AssetID.Trauma.TRAUMA_RANK);
             if (null == TraumaCntBuff)
                 return null;
 
-            return new ContextActionApplyBuff()
+            return new Mod_CrippleSelf_RankUpTrauma()
             {
                 m_Buff = TraumaCntBuff.ToReference<BlueprintBuffReference>(),
                 BuffEndCondition = Kingmaker.UnitLogic.Buffs.BuffEndCondition.RemainAfterCombat,
                 Permanent = true,
-                Ranks = TraumaCntBuff.MaxRank,
+                //Ranks = TraumaCntBuff.MaxRank,    //Ranks val set in RunAction() in runtime
+            };
+        }
+
+        private static ContextActionRemoveBuff RemoveBuff(string buffGuid)
+        {
+            BlueprintBuff buff = ResourcesLibrary.TryGetBlueprint<BlueprintBuff>(buffGuid);
+            var buffRef = buff?.ToReference<BlueprintBuffReference>();
+            return new ContextActionRemoveBuff() { m_Buff = buffRef };
+        }
+
+        private static Mod_CrippleSelf_ApplySelectedTraumas ApplySelectedTraumas()
+        {
+            return new Mod_CrippleSelf_ApplySelectedTraumas()
+            {
+                BuffEndCondition = Kingmaker.UnitLogic.Buffs.BuffEndCondition.RemainAfterCombat,
+                Permanent = true,
             };
         }
     }

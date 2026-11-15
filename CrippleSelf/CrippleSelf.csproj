@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-	<Import Project="$(SolutionDir)GamePathFinder.props" Condition="Exists('$(SolutionDir)GamePathFinder.props')" />
+	<Import Project="$(SolutionDir)GamePathFinder.props" Condition="Exists('$(SolutionDir)GamePathFinder.props')" /><!-- Used to auto-locate game/mod path -->
 	<PropertyGroup>
 		<TargetFramework>net481</TargetFramework>
 		<AssemblyName>CrippleSelf</AssemblyName>
 		<Description>CrippleSelf</Description>
 		<AppDesignerFolder>Properties</AppDesignerFolder>
 		<OutputType>Library</OutputType>
-		<Version>2.0.20</Version>
+		<!--<Version>1.1.0</Version> used for zip, not used here-->
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<LangVersion>preview</LangVersion>
 		<Nullable>enable</Nullable>
@@ -17,7 +17,7 @@
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<RestoreAdditionalProjectSources>https://api.nuget.org/v3/index.json</RestoreAdditionalProjectSources>
 	</PropertyGroup>
-	<ItemGroup>
+	<ItemGroup><!-- dll & nuget package imported -->
 		<Reference Include="$(RogueTraderInstallDir)\WH40KRT_Data\Managed\netstandard*.dll" Private="false" />
 		<Reference Include="$(RogueTraderInstallDir)\WH40KRT_Data\Managed\UnityEngine.TextCoreTextEngineModule.dll*" Publicize="true" Private="false" />
 		<Reference Include="$(RogueTraderInstallDir)\WH40KRT_Data\Managed\Unity*.dll" Exclude="$(RogueTraderInstallDir)\WH40KRT_Data\Managed\UnityEngine.TextCoreTextEngineModule.dll" Private="false" />
@@ -54,10 +54,18 @@
 		</PackageReference>
 		<Reference Include="System.IO.Compression" Private="false" />
 	</ItemGroup>
+	<ItemGroup>	<!-- Other files -->
+	  <None Include="Info.json" CopyToOutputDirectory="PreserveNewest" />
+	  <LocalizationFiles Include="Localization\*.*" />
+	</ItemGroup>
+	<Target Name="Deploy" AfterTargets="Build"><!-- Deploy mod -->
+		<Copy SourceFiles="@(LocalizationFiles)" DestinationFolder="$(TargetDir)Localization" />
 		<ItemGroup>
-		  <None Update="Info.json">
-		    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		  </None>
+			<Files Include="$(TargetDir)\**\*.json" /><!-- Include localization files and Info.json -->
+			<Files Include="$(TargetDir)\$(AssemblyName).*" />
 		</ItemGroup>
+		<!--<Message Text="@(Files)" Importance="High" />-->
+		<Copy SourceFiles="@(Files)" DestinationFiles="@(Files->'$(RogueTraderData)\UnityModManager\$(AssemblyName)\%(RecursiveDir)%(Filename)%(Extension)')" />
+	</Target>
 
  </Project>
