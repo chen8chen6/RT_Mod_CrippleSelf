@@ -2,7 +2,8 @@
   "Releases": [
     {
       "Id": "CrippleSelf",
-      "Version": "1.1.0"
+      "Version": "1.1.1",
+      "DownloadUrl": "https://github.com/chen8chen6/RT_Mod_CrippleSelf/releases/download/v1.1.1/CrippleSelf.zip"
     }
   ]
 }
