@@ -1,98 +1,73 @@
-﻿using HarmonyLib;
-using Kingmaker.Localization;
-using Kingmaker.Localization.Enums;
+﻿using Kingmaker.Localization.Enums;
 using Kingmaker.Localization.Shared;
+using Kingmaker.Utility.DotNetExtensions;
 
 namespace CrippleSelf
 {
-    //Patch LocalizationManager.LoadPack(locale)
-    [HarmonyPatch(typeof(LocalizationManager), "LoadPack", new Type[]
-    {
-        typeof(Locale)
-    })]
     internal class Localization
     {
-        [HarmonyPostfix]
-        public static void Postfix(ref LocalizationManager __instance)
+        public bool Started { get; private set; }
+
+        public void Start(ILocalizationProvider localizationProvider, string modPath)
         {
-            Logger.Info("LoadPack(locale)");
-            LoadLanguagePack(ref __instance);
+            Logger.Info($"Start({localizationProvider})");
+            if (this.Started) return;
+
+            this.Started = true;
+            this.m_LocalizationProvider = localizationProvider;
+            this.m_modPath = modPath;
+
+            try
+            {
+                this.ApplyLocalization(localizationProvider.CurrentLocale);
+                this.m_LocalizationProvider.LocaleChanged += this.ApplyLocalization;
+            }
+            catch (Exception e)
+            {
+                Logger.Error($"Localization.Start({localizationProvider}) failed: {e}");
+            }
         }
 
-        public static void LoadLanguagePack(ref LocalizationManager __instance)
+        public void ApplyLocalization(Locale loc)
         {
-            //Check if m_loadedMarkKey set
-            if (null == m_loadedMarkKey)
-            {
-                Logger.Critical("LoadedMarkKey NOT set! Please call Localization.SetLoadedMarkKey() before harmony.PatchAll() in Main.Load()");
-                return;
-            }
+            Logger.Info($"ApplyLocalization({loc})");
+            if (null == m_LocalizationProvider.CurrentPack) return;
 
-            //Check if is loading/loaded
-            if (m_isLoadding || IsLoaded(ref __instance))
-            {
-                Logger.Info("Language pack is " + (m_isLoadding ? "Loading" : "Loaded"));
-                return;
-            }
+            //LoadLocalizationPack
+            LocalizationPack pack = LoadLocalizationPack(this.m_LocalizationProvider.CurrentLocale);
+            if (null == pack) return;
 
-            //Load language pack
-            string packPath = PackPath(ref __instance);
-            m_isLoadding = true;
-            Logger.Info($"Loading language pack: {packPath}");
-            LocalizationPack pack = __instance.LoadPack(packPath, __instance.CurrentPack.Locale);
-            __instance.CurrentPack.AddStrings(pack);
-            m_isLoadding = false;
-
-            //Check if loaded
-            if (IsLoaded(ref __instance))
-                Logger.Info($"Load language pack successed: {packPath}");
-            else
-                Logger.Error($"Load language pack failed: {packPath}");
+            this.m_LocalizationProvider.CurrentPack?.AddStrings(pack);
+            Logger.Info($"ApplyLocalization() successed. Pack Size: {this.m_LocalizationProvider.CurrentPack?.m_Strings.Count}");
         }
 
-        public static void SetLoadedMarkKey(string key) { m_loadedMarkKey = key; }
-        public static void SetModPath(string modPath) { m_modPath = modPath; }
-
-        private static string m_loadedMarkKey = null;   //Used to check if mod language pack is loaded
-        private static bool m_isLoadding = false;
-        private static string m_modPath = null;
-
-        private static bool IsLoaded(ref LocalizationManager __instance)
+        public LocalizationPack LoadLocalizationPack(Locale locale)
         {
-            //Check if m_loadedMarkKey added in LocalizationManager.CurrentPack
-            if (!__instance.CurrentPack.TryGetText(m_loadedMarkKey, out string text))
+            LocalizationPack localizationPack = this.m_LocalizationPacks.FirstItem((ValueTuple<Locale, LocalizationPack> i) => i.Item1 == locale).Item2;
+            if (localizationPack == null)
             {
-                Logger.Warning("Language pack NOT loaded: " + text);
-                return false;
+                string packPath = PackPath(locale);
+                if (this.m_LocalizationProvider != null)
+                {
+                    localizationPack = this.m_LocalizationProvider.LoadPack(packPath, locale);
+                    this.m_LocalizationPacks.Add(new ValueTuple<Locale, LocalizationPack>(locale, localizationPack));
+                }
             }
-            return true;
+            return localizationPack;
         }
 
-        private static string? PackPath(ref LocalizationManager __instance)
+        private string m_modPath = null;
+        private ILocalizationProvider m_LocalizationProvider = null;
+        private readonly List<ValueTuple<Locale, LocalizationPack>> m_LocalizationPacks = new List<ValueTuple<Locale, LocalizationPack>>();
+
+        private string? PackPath(Locale loc)
         {
-            if (null == m_modPath)
+            if (null == this.m_modPath)
             {
                 Logger.Critical("ModPath NOT set! Please call Localization.SetModPath() before harmony.PatchAll() in Main.Load()");
                 return null;
             }
-            return Path.Combine(m_modPath, "Localization/" + __instance.CurrentPack.Locale.ToString() + ".json");
-        }
-    }
-
-    //Patch LocalizationManager.LoadPack(string, locale)
-    [HarmonyPatch(typeof(LocalizationManager), "LoadPack", new Type[]
-    {
-        typeof(string),
-        typeof(Locale)
-    })]
-    internal static class LocalizationReloadPatchWithPath
-    {
-        [HarmonyPostfix]
-        private static void Postfix(ref LocalizationManager __instance)
-        {
-            Logger.Info("LoadPack(string, locale)");
-            Localization.LoadLanguagePack(ref __instance);
+            return Path.Combine(this.m_modPath, "Localization/" + loc.ToString() + ".json");
         }
     }
 }
-
