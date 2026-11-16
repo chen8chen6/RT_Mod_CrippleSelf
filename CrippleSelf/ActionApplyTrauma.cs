@@ -8,18 +8,10 @@ namespace CrippleSelf
     {
         public override void RunAction()
         {
-            bool[] isToApply =
-            {
-                Main.Settings.IsToApply_BrokenRibs,
-                Main.Settings.IsToApply_Concussion,
-                Main.Settings.IsToApply_CrippledArm_Left,
-                Main.Settings.IsToApply_CrippledArm_Right,
-                Main.Settings.IsToApply_CrippledLeg,
-                Main.Settings.IsToApply_NeurogenicShock,
-            };
+            bool[] isToApply = Main.Settings.GetIsToApply();
 
             int traumaCnt = 0;
-            for (int i = 0; i < isToApply.Count(); ++i)
+            for (int i = 0; i < isToApply.Length; ++i)
             {
                 if (isToApply[i])
                     ++traumaCnt;
@@ -37,15 +29,7 @@ namespace CrippleSelf
     {
         public override void RunAction()
         {
-            bool[] isToApply =
-            {
-                Main.Settings.IsToApply_BrokenRibs,
-                Main.Settings.IsToApply_Concussion,
-                Main.Settings.IsToApply_CrippledArm_Left,
-                Main.Settings.IsToApply_CrippledArm_Right,
-                Main.Settings.IsToApply_CrippledLeg,
-                Main.Settings.IsToApply_NeurogenicShock,
-            };
+            bool[] isToApply = Main.Settings.GetIsToApply();
 
             string[] traumasToApply =
             {
@@ -57,7 +41,7 @@ namespace CrippleSelf
                 AssetID.Trauma.NEUROGENIC_SHOCK,
             };
 
-            for(int i = 0; i < traumasToApply.Count(); ++i)
+            for (int i = 0; i < traumasToApply.Length; ++i)
             {
                 if (!isToApply[i]) continue;
 

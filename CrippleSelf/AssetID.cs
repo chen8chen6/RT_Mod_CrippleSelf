@@ -13,6 +13,16 @@
             public const string TRAUMA_RANK         = "8c776f738cb2482ba003f93b3af9f506";   //TraumaBuff
         };
 
+        public static readonly string[] ALL_TRAUMAS =
+        {
+            Trauma.BROKEN_RIBS,
+            Trauma.CONCUSSION,
+            Trauma.CRIPPLED_ARM_LEFT,
+            Trauma.CRIPPLED_ARM_RIGHT,
+            Trauma.CRIPPLED_LEG,
+            Trauma.NEUROGENIC_SHOCK
+        };
+
         public static class Feature
         {
             public const string FACING_THE_END  = "2b2f1b1ed2784eb78b4d3a6f5a9f7df5";   //ReaperTalent4Feature

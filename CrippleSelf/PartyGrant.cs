@@ -51,17 +51,16 @@ namespace CrippleSelf
 
         private static void Grant(BaseUnitEntity unit)
         {
-            var logger = Main.ModEntry.Logger;
             BlueprintAbility crippleSelf = ResourcesLibrary.TryGetBlueprint<BlueprintAbility>(AssetID.Ability.MOD_CRIPPLE_SELF);
             if (null == crippleSelf)
             {
-                logger.Critical($"Ability NOT found: CrippleSelf[{AssetID.Ability.MOD_CRIPPLE_SELF}]");
+                Logger.Critical($"Ability NOT found: CrippleSelf[{AssetID.Ability.MOD_CRIPPLE_SELF}]");
                 return;
             }
 
             if (null != unit && !unit.IsPet && !unit.Facts.Contains(crippleSelf))
             {
-                logger.Warning($"Add ability for unit {unit.Name}");
+                Logger.Warning($"Add ability for unit {unit.Name}");
                 unit.AddFact(crippleSelf, null);
             }
 

@@ -6,7 +6,7 @@
     },
     "mod.crippleSelf.desc": {
       "Offset": 0,
-      "Text": "Apply all {g|Encyclopedia:Traumas}traumas{/g} on self."
+      "Text": "Apply {g|Encyclopedia:Traumas}traumas{/g} below on self: {mod.crippleself.traumasToApply|, }."
     }
   }
 }

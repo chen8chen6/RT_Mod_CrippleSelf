@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using Kingmaker.Blueprints;
 using Kingmaker.PubSubSystem.Core;
+using Kingmaker.TextTools;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
 using System.Reflection;
 using UnityEngine;
@@ -10,9 +11,8 @@ namespace CrippleSelf
 {
     static class Main
     {
-        public static Settings Settings;
+        public static Settings? Settings;
         public static bool Enabled;
-        public static UnityModManager.ModEntry ModEntry { get; private set; }
 
         static bool Load(UnityModManager.ModEntry modEntry)
         {
@@ -21,15 +21,24 @@ namespace CrippleSelf
             modEntry.OnSaveGUI = OnSaveGUI;
 
             Main.Settings = Settings.Load<Settings>(modEntry);
-            Main.ModEntry = modEntry;
+            Logger.SetLogger(modEntry.Logger);      //Use UMM logger as mod logger
 
             //TODO: microPatch disables localization of this mod, why?
+            Localization.SetModPath(modEntry.Path);
             Localization.SetLoadedMarkKey(AssetID.LocalizedStringKey.CRIPPLE_SELF_NAME);  //Used to check if mod language pack is loaded
 
             var harmony = new Harmony(modEntry.Info.Id);
             harmony.PatchAll(Assembly.GetExecutingAssembly());
+            foreach (var patchedMethod in harmony.GetPatchedMethods())
+            {
+                Logger.Info($"Method patched: {patchedMethod}");
+            }
 
             EventBus.Subscribe(new PartyGrant());   //Add CrippleSelf ability on savedata loaded
+
+            //TextTemplateEngine.AddTemplates() is called before Main.Load(). It's nonsense to hamnory-patch it;
+            //Have to call BaseTmplateEngine.AddTemplate(string, TextTemplate) mannually.
+            TextTemplateEngine.Instance.AddTemplate(TraumaTextTemplate.TemplateStr, new TraumaTextTemplate());
             return true;
         }
 
@@ -63,9 +72,10 @@ namespace CrippleSelf
         {
             BlueprintBuff trauma= ResourcesLibrary.TryGetBlueprint<BlueprintBuff>(id);
 
-            string name = (null == trauma) ? "Unknown" : trauma.m_DisplayName.GetText();
-            string desc = (null == trauma) ? "Unknown" : trauma.m_Description.GetText();
+            string name = (null == trauma) ? "Unknown" : trauma.Name;
+            string desc = (null == trauma) ? "Unknown" : trauma.Description;
 
+#if false
             //Add "Left"/"Right" to Crippele Arm
             BlueprintComponent[] componentsArray = trauma.ComponentsArray;//base.ComponentsArray;
             for (int i = 0; i < componentsArray.Length; i++)
@@ -76,10 +86,10 @@ namespace CrippleSelf
                     name = addStringToFactName.NewString(name);
                 }
             }
-
+#endif
             GUILayout.BeginHorizontal();
             GUILayout.Space(20);
-            
+
             //name
             option = GUILayout.Toggle(option, " " + name, GUILayout.Width(180));
             GUILayout.Space(20);
