@@ -37,7 +37,7 @@ namespace CrippleSelf
             return new BlueprintAbility
             {
                 AssetGuid = AssetID.Ability.MOD_CRIPPLE_SELF,
-                Comment = "Apply all traumas on self",
+                Comment = "Apply several selected traumas on self",
                 name = "MOD_CrippleSelf_ability",
 
                 //Display options
@@ -60,6 +60,7 @@ namespace CrippleSelf
 
                 //Ability effects
                 ActionPointCost = 0,
+                CooldownRounds = 1,
                 ComponentsArray = [abilityEffect],  //TODO: UI Component
             };
         }
