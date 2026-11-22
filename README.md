@@ -10,6 +10,8 @@ Rougue Trader and companions will aquire this ability automatically when savedat
 	
 If it doesn't appear in your ability slot, press "C" and check the "feature" tab. It should be right under the "other" type, close to Heroic Act and Desperate Act.
 
+Since Version 1.1.3, only units with "Facing the end"(e.g. Kibellah) or "Wounded beast"(e.g. Ulfar) can aquire CrippleSelf ability. 
+
 # Installation:
 
 Method 1:
@@ -49,8 +51,10 @@ MindAttic, Author of the "Overwatch" mod[https://www.nexusmods.com/warhammer40kr
 # 获取技能:
 
 读取存档时, 行商浪人和同伴会自动获取该技能.
-	
+
 如果技能栏里没出现的话, 按"C"打开角色页面, 切换到"特性"页面, 在"其它"项里就能找到了. 就在"英雄壮举"和"背水一战"旁边.
+
+1.1.3版本开始, 只有学会 "面对终结" 或者 "困兽犹斗" 的角色 (比如绮贝拉和乌尔法) 才会获取这个技能
 
 # 安装:
 
